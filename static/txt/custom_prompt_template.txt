@@ -1,0 +1,186 @@
+Create structured output in the following format, ensuring each line adheres to the specified structure. Do not omit any brackets or any other elements. Follow this exact format:
+
+Complete this:
+
+[maid name]: x, #The name of the maid for identification and reference
+[maid ref code]: x, #A unique reference code assigned to the maid
+[maid type]: x, #Type or category of maid (e.g., full-time, part-time)
+[maid expected salary]: x, #The salary the maid expects to receive
+[availability status]: x, #Current status of the maid's availability for work
+[youtube link]: x, #Link to any videos related to the maid, such as introductions or demonstrations
+[evalsg lang english stars]: x, #Rating of the maid's English language skills according to the evaluation
+[evalsg lang mandarin stars]: x, #Rating of the maid's Mandarin language skills according to the evaluation
+[evalsg lang malay stars]: x, #Rating of the maid's Malay language skills according to the evaluation
+[evalsg lang tamil stars]: x, #Rating of the maid's Tamil language skills according to the evaluation
+[evalsg lang hindi stars]: x, #Rating of the maid's Hindi language skills according to the evaluation
+[public maid introduction]: x, #A brief introduction of the maid meant for public viewing
+[date of birth]: x, #The maid's birth date
+[place of birth]: x, #The city or country where the maid was born
+[height cm]: x, #The maid's height in centimeters
+[weight kg]: x, #The maid's weight in kilograms
+[nationality]: x, #The maid's nationality
+[sub nationality]: x, #Any additional or secondary nationality of the maid
+[home address]: x, #The maid's residential address
+[home airport repatriate]: x, #The airport used for repatriation or return to the maid's home country
+[home contact number]: x, #The maid's contact number at home
+[religion]: x, #The maid's religion
+[education]: x, #The level of education the maid has completed
+[siblings count]: x, #The number of siblings the maid has
+[marital status]: x, #The maid's marital status (e.g., single, married)
+[children count]: x, #The number of children the maid has
+[children ages]: x, #The ages of the maid's children
+[allergies]: x, #Any known allergies of the maid
+[illness mental]: x, #Any mental health illnesses reported by the maid
+[illness epilepsy]: x, #Whether the maid has epilepsy
+[illness asthma]: x, #Whether the maid has asthma
+[illness diabetes]: x, #Whether the maid has diabetes
+[illness hypertension]: x, #Whether the maid has hypertension
+[illness tubercolosis]: x, #Whether the maid has tuberculosis
+[illness heart disease]: x, #Whether the maid has heart disease
+[illness malaria]: x, #Whether the maid has malaria
+[illness operations]: x, #Any past operations or surgeries the maid has undergone
+[illness others]: x, #Any other illnesses not listed above
+[physical disabilities]: x, #Any physical disabilities of the maid
+[dietary restrictions]: x, #Any dietary restrictions the maid follows
+[handle pork]: x, #Whether the maid can handle or cook pork
+[handle beef]: x, #Whether the maid can handle or cook beef
+[handle pets]: x, #Whether the maid is comfortable with or can handle pets
+[handle others]: x, #Any other specific handling requirements or preferences
+[maid preferred rest day]: x, #The maid's preferred day for rest or time off
+[maid other remarks]: x, #Any additional comments or remarks about the maid
+[eval no agency no trainingctr]: x, #Evaluation status if there is no agency or training center involved
+[eval agency]: x, #Name of the agency that evaluated the maid
+[eval agency telephone]: x, #Contact number of the evaluating agency
+[eval agency videoconference]: x, #Whether the evaluation by the agency was conducted via videoconference
+[eval agency in person]: x, #Whether the evaluation by the agency was conducted in person
+[eval agency in person observation]: x, #Details about the in-person observation by the agency
+[eval agency age range infant child]: x, #The age range of infants and children the maid is evaluated for
+[eval agency willing infant child]: x, #Whether the maid is willing to work with infants and children
+[eval agency years infant child]: x, #Years of experience with infants and children according to the agency
+[eval agency stars infant child]: x, #Star rating of the maid’s experience with infants and children
+[eval agency comments infant child]: x, #Comments from the agency regarding the maid’s experience with infants and children
+[eval agency willing elderly]: x, #Whether the maid is willing to work with elderly individuals
+[eval agency years elderly]: x, #Years of experience with elderly individuals according to the agency
+[eval agency stars elderly]: x, #Star rating of the maid’s experience with elderly individuals
+[eval agency comments elderly]: x, #Comments from the agency regarding the maid’s experience with elderly individuals
+[eval agency willing disabled]: x, #Whether the maid is willing to work with disabled individuals
+[eval agency years disabled]: x, #Years of experience with disabled individuals according to the agency
+[eval agency stars disabled]: x, #Star rating of the maid’s experience with disabled individuals
+[eval agency comments disabled]: x, #Comments from the agency regarding the maid’s experience with disabled individuals
+[eval agency willing housework]: x, #Whether the maid is willing to perform housework
+[eval agency years housework]: x, #Years of experience with housework according to the agency
+[eval agency stars housework]: x, #Star rating of the maid’s experience with housework
+[eval agency comments housework]: x, #Comments from the agency regarding the maid’s experience with housework
+[eval agency specify cuisines cooking]: x, #Specific cuisines the maid is evaluated for cooking
+[eval agency willing cooking]: x, #Whether the maid is willing to cook
+[eval agency years cooking]: x, #Years of cooking experience according to the agency
+[eval agency stars cooking]: x, #Star rating of the maid’s cooking skills
+[eval agency comments cooking]: x, #Comments from the agency regarding the maid’s cooking skills
+[eval agency language]: x, #Languages evaluated by the agency
+[eval agency willing language]: x, #Whether the maid is willing to use additional languages
+[eval agency years language]: x, #Years of experience with languages according to the agency
+[eval agency stars language]: x, #Star rating of the maid’s language skills
+[eval agency comments language]: x, #Comments from the agency regarding the maid’s language skills
+[eval agency specify other skills]: x, #Any other specific skills evaluated by the agency
+[eval agency willing other skills]: x, #Whether the maid is willing to use additional skills
+[eval agency years other skills]: x, #Years of experience with other skills according to the agency
+[eval agency stars other skills]: x, #Star rating of the maid’s other skills
+[eval agency comments other skills]: x, #Comments from the agency regarding the maid’s other skills
+[trainingctr name]: x, #Name of the training center that evaluated or trained the maid
+[trainingctr certified]: x, #Whether the training center is certified
+[eval trainingctr telephone]: x, #Contact number of the training center
+[eval trainingctr videoconference]: x, #Whether the evaluation by the training center was conducted via videoconference
+[eval trainingctr in person]: x, #Whether the evaluation by the training center was conducted in person
+[eval trainingctr in person observation]: x, #Details about the in-person observation by the training center
+[eval trainingctr age range infant child]: x, #The age range of infants and children the maid is evaluated for by the training center
+[eval trainingctr willing infant child]: x, #Whether the maid is willing to work with infants and children according to the training center
+[eval trainingctr years infant child]: x, #Years of experience with infants and children according to the training center
+[eval trainingctr stars infant child]: x, #Star rating of the maid’s experience with infants and children according to the training center
+[eval trainingctr comments infant child]: x, #Comments from the training center regarding the maid’s experience with infants and children
+[eval trainingctr willing elderly]: x, #Whether the maid is willing to work with elderly individuals according to the training center
+[eval trainingctr years elderly]: x, #Years of experience with elderly individuals according to the training center
+[eval trainingctr stars elderly]: x, #Star rating of the maid’s experience with elderly individuals according to the training center
+[eval trainingctr comments elderly]: x, #Comments from the training center regarding the maid’s experience with elderly individuals
+[eval trainingctr willing disabled]: x, #Whether the maid is willing to work with disabled individuals according to the training center
+[eval trainingctr years disabled]: x, #Years of experience with disabled individuals according to the training center
+[eval trainingctr stars disabled]: x, #Star rating of the maid’s experience with disabled individuals according to the training center
+[eval trainingctr comments disabled]: x, #Comments from the training center regarding the maid’s experience with disabled individuals
+[eval trainingctr willing housework]: x, #Whether the maid is willing to perform housework according to the training center
+[eval trainingctr years housework]: x, #Years of experience with housework according to the training center
+[eval trainingctr stars housework]: x, #Star rating of the maid’s experience with housework according to the training center
+[eval trainingctr comments housework]: x, #Comments from the training center regarding the maid’s experience with housework
+[eval trainingctr specify cuisines cooking]: x, #Specific cuisines the maid is evaluated for cooking by the training center
+[eval trainingctr willing cooking]: x, #Whether the maid is willing to cook according to the training center
+[eval trainingctr years cooking]: x, #Years of cooking experience according to the training center
+[eval trainingctr stars cooking]: x, #Star rating of the maid’s cooking skills according to the training center
+[eval trainingctr comments cooking]: x, #Comments from the training center regarding the maid’s cooking skills
+[eval trainingctr language]: x, #Languages evaluated by the training center
+[eval trainingctr willing language]: x, #Whether the maid is willing to use additional languages according to the training center
+[eval trainingctr years language]: x, #Years of experience with languages according to the training center
+[eval trainingctr stars language]: x, #Star rating of the maid’s language skills according to the training center
+[eval trainingctr comments language]: x, #Comments from the training center regarding the maid’s language skills
+[eval trainingctr specify other skills]: x, #Any other specific skills evaluated by the training center
+[eval trainingctr willing other skills]: x, #Whether the maid is willing to use additional skills according to the training center
+[eval trainingctr years other skills]: x, #Years of experience with other skills according to the training center
+[eval trainingctr stars other skills]: x, #Star rating of the maid’s other skills according to the training center
+[eval trainingctr comments other skills]: x, #Comments from the training center regarding the maid’s other skills
+[employment history]: x, #Summary of the maid's previous employment experiences
+[employer1 date from]: x, #Start date of employment with the first employer
+[employer1 date to]: x, #End date of employment with the first employer
+[employer1 country]: x, #Country where the first employer is based
+[employer1 name]: x, #Name of the first employer
+[employer1 work duties]: x, #Duties and responsibilities while working for the first employer
+[employer1 remarks]: x, #Any additional remarks about the maid's performance with the first employer
+[employer2 date from]: x, #Start date of employment with the second employer
+[employer2 date to]: x, #End date of employment with the second employer
+[employer2 country]: x, #Country where the second employer is based
+[employer2 name]: x, #Name of the second employer
+[employer2 work duties]: x, #Duties and responsibilities while working for the second employer
+[employer2 remarks]: x, #Any additional remarks about the maid's performance with the second employer
+[employer3 date from]: x, #Start date of employment with the third employer
+[employer3 date to]: x, #End date of employment with the third employer
+[employer3 country]: x, #Country where the third employer is based
+[employer3 name]: x, #Name of the third employer
+[employer3 work duties]: x, #Duties and responsibilities while working for the third employer
+[employer3 remarks]: x, #Any additional remarks about the maid's performance with the third employer
+[employer4 date from]: x, #Start date of employment with the fourth employer
+[employer4 date to]: x, #End date of employment with the fourth employer
+[employer4 country]: x, #Country where the fourth employer is based
+[employer4 name]: x, #Name of the fourth employer
+[employer4 work duties]: x, #Duties and responsibilities while working for the fourth employer
+[employer4 remarks]: x, #Any additional remarks about the maid's performance with the fourth employer
+[employer5 date from]: x, #Start date of employment with the fifth employer
+[employer5 date to]: x, #End date of employment with the fifth employer
+[employer5 country]: x, #Country where the fifth employer is based
+[employer5 name]: x, #Name of the fifth employer
+[employer5 work duties]: x, #Duties and responsibilities while working for the fifth employer
+[employer5 remarks]: x, #Any additional remarks about the maid's performance with the fifth employer
+[employer6 date from]: x, #Start date of employment with the sixth employer
+[employer6 date to]: x, #End date of employment with the sixth employer
+[employer6 country]: x, #Country where the sixth employer is based
+[employer6 name]: x, #Name of the sixth employer
+[employer6 work duties]: x, #Duties and responsibilities while working for the sixth employer
+[employer6 remarks]: x, #Any additional remarks about the maid's performance with the sixth employer
+[employer7 date from]: x, #Start date of employment with the seventh employer
+[employer7 date to]: x, #End date of employment with the seventh employer
+[employer7 country]: x, #Country where the seventh employer is based
+[employer7 name]: x, #Name of the seventh employer
+[employer7 work duties]: x, #Duties and responsibilities while working for the seventh employer
+[employer7 remarks]: x, #Any additional remarks about the maid's performance with the seventh employer
+[employer8 date from]: x, #Start date of employment with the eighth employer
+[employer8 date to]: x, #End date of employment with the eighth employer
+[employer8 country]: x, #Country where the eighth employer is based
+[employer8 name]: x, #Name of the eighth employer
+[employer8 work duties]: x, #Duties and responsibilities while working for the eighth employer
+[employer8 remarks]: x, #Any additional remarks about the maid's performance with the eighth employer
+[prev work in sg]: x, #Whether the maid has previous work experience in Singapore
+[maid prev feedback1]: x, #First piece of feedback from previous employers
+[maid prev feedback2]: x, #Second piece of feedback from previous employers
+[avail interview not available]: x, #Whether the maid is currently unavailable for an interview
+[avail interview phone]: x, #Whether the maid is available for a phone interview
+[avail interview videoconference]: x, #Whether the maid is available for a videoconference interview
+[avail interview in person]: x, #Whether the maid is available for an in-person interview
+[other remarks]: x, #Any other remarks or information not covered in the other fields
+[maid passport no]: x, #The maid's passport number
+[trainingctr maid introduction]: x, #Introduction provided by the training center about the maid
+[internal notes]: x, #Internal notes for use by the agency or relevant parties
