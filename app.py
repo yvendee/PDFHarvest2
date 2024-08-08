@@ -71,8 +71,10 @@ os.makedirs(GENERATE_CSV_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['EXTRACTED_PROFILE_PICTURE_FOLDER'] = EXTRACTED_PROFILE_PICTURE_FOLDER
 app.config['EXTRACTED_PAGE_IMAGES_FOLDER'] = EXTRACTED_PAGE_IMAGES_FOLDER
-## app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB max upload size
+# app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max upload size
+# Set maximum file size to 50 MB
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB
+
 progress = {}
 image_fullpath_with_face_list = []
 maidrefcode_list = []
@@ -424,6 +426,12 @@ def pdf_to_jpg(pdf_file, output_folder, zoom=2):
                     summary_dict["maid ref code"] = maid_ref_code_value
                     
             else:
+
+                # Remove unwanted characters 
+                pattern = r'[^0-9A-Z]' # acceptable character are 0 to 9 and all capital letters
+        
+                # Replace all characters not matching the pattern with whitespace
+                maid_ref_code_value = re.sub(pattern, ' ', maid_ref_code_value)
 
                 # Format the birth date by removing slashes
                 formatted_birth_date = birth_date_value.replace("/", "")
