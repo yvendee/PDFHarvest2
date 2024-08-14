@@ -1189,6 +1189,7 @@ def save_outputcsv():
 def edit_default_options_value():
     global maid_status_global
     maid_status_global = request.form.get('maid_status', 'None')
+    print(f"maid type selected: {maid_status_global}")
     
     # Return JSON response
     return jsonify(success=True)
