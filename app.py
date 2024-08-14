@@ -43,6 +43,7 @@ current_ocr = "gpt4ominiOCR"
 # Global variable to store structured text setting
 # current_structured_text = "gpt4omini"
 current_structured_text = "gpt4omini"
+maid_status_global = "None"
 
 # Define a decorator function to check if the user is authenticated
 def login_required(f):
@@ -75,11 +76,16 @@ app.config['EXTRACTED_PAGE_IMAGES_FOLDER'] = EXTRACTED_PAGE_IMAGES_FOLDER
 # Set maximum file size to 50 MB
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB
 
+# Define the path to the directory where the file is located
+FILE_DIRECTORY = os.path.dirname(__file__)
+
 progress = {}
 image_fullpath_with_face_list = []
 maidrefcode_list = []
 uploaded_pdf_file_list = []
 new_uploaded_pdf_file_path_list = []
+
+
 
 def copy_files_to_directory(file_paths, target_directory):
     """
@@ -188,7 +194,7 @@ def rename_files2(pdf_file_list, maidrefcode_list):  ## rename input pdf's with 
 
 ####### PDF to Images Extraction ################
 def pdf_to_jpg(pdf_file, output_folder, zoom=2):
-    global maidrefcode_list, last_upload_time
+    global maidrefcode_list, last_upload_time, maid_status_global
 
     # Get the base name of the PDF file to create a subfolder
     base_name = os.path.splitext(os.path.basename(pdf_file))[0]
@@ -527,20 +533,33 @@ def pdf_to_jpg(pdf_file, output_folder, zoom=2):
         #     print(f"Error occurred: {e}")
 
 
-        try:
-            # Getting the value corresponding to the key "maid type"" then stored
-            maid_type_option_id_value = summary_dict.get("maid type", "")
-            if maid_type_option_id_value.strip().lower() in ["ex maid", "transfer"]:
-                summary_dict["maid type"] = maid_type_option_id_value.strip().lower()
-            else:
-                summary_dict["maid type"] = "New Maid"
-        except Exception as e:
-            print(f"Error occurred: {e}")
+        if maid_status_global == "None":
+
+            try:
+                # Getting the value corresponding to the key "maid type"" then stored
+                maid_type_option_id_value = summary_dict.get("maid type", "")
+                if maid_type_option_id_value.strip().lower() in ["ex maid", "transfer maid"]:
+                    summary_dict["maid type"] = maid_type_option_id_value.strip().lower()
+                else:
+                    summary_dict["maid type"] = "New Maid"
+            except Exception as e:
+                print(f"Error occurred: {e}")
+        else:
+
+            try:
+                summary_dict["maid type"] = maid_status_global
+            except Exception as e:
+                print(f"Error occurred: {e}")
+
 
         try:
             education_id_value = summary_dict.get("education", "")
-            ## Secondary level (8~9 yrs)|High School (10~12 yrs)|College/Degree (>=13 yrs)|Others
-            if education_id_value.strip().lower() in ["secondary level (8~9 yrs)", "high school (10~12 yrs)", "college/degree (>=13 yrs)"]:
+            # - Others
+            # - Diploma/Degree (>=13 yrs)
+            # - High School (11-12 yrs)
+            # - Secondary Level (7-10 yrs)
+            # - Primary Level (1-6 yrs)
+            if education_id_value.strip().lower() in ["diploma/degree (>=13 yrs)", "high school (11-12 yrs)", "secondary level (7-10 yrs)", "primary level (1-6 yrs)"]:
                 summary_dict["education"] = education_id_value.strip().lower()
             else:
                 summary_dict["education"] = "Others"
@@ -650,6 +669,18 @@ def pdf_to_jpg(pdf_file, output_folder, zoom=2):
 
         except Exception as e:
             print(f"Error occurred: {e}")
+
+        try:
+            # Getting the value corresponding to the key "marital status" then stored
+            marital_status_option_id_value = summary_dict.get("marital status", "")
+            # Single|Married|Widowed|Divorced|Separated
+            if marital_status_option_id_value.strip().lower() in ["single", "married", "widowed", "divorced", "separated"]:
+                summary_dict["marital status"] = marital_status_option_id_value.strip().lower()
+            else:
+                summary_dict["marital status"] = "single"
+        except Exception as e:
+            print(f"Error occurred: {e}")
+
 
         ##================================================================================##
 
@@ -1032,6 +1063,7 @@ def text_editor():
     
     return render_template('custom/custom-prompt-page.html', default_content=default_content)
 
+
 @app.route('/save-content', methods=['POST'])
 @login_required
 def save_content():
@@ -1153,6 +1185,30 @@ def save_outputcsv():
     save_csv(csv_path,"hello word")
     return "success"
 
+@app.route('/edit-default-options-value', methods=['POST'])
+def edit_default_options_value():
+    global maid_status_global
+    maid_status_global = request.form.get('maid_status', 'None')
+    
+    # Return JSON response
+    return jsonify(success=True)
+
+
+@app.route('/default-options')
+def edit_default_options():
+    return render_template('default/default-options-page.html', maid_status_global=maid_status_global)
+
+@app.route('/download-logs')
+def download_logs():
+    # Define the path to the file to be downloaded
+    filepath = os.path.join(os.path.dirname(__file__), 'ph.logs')
+
+    # Check if the file exists
+    if os.path.exists(filepath):
+        return send_file(filepath, as_attachment=True)
+    else:
+        # Return a JSON response if the file is not found
+        return jsonify({'error': 'File not found'}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
