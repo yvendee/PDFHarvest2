@@ -1,4 +1,4 @@
-Create structured output in the following format, ensuring each line adheres to the specified structure. Do not omit any brackets or any other elements. Follow this exact format:
+Create structured output in the following format, ensuring each line adheres to the specified structure. Do not omit any brackets or any other elements, x is just the expected value. Follow this exact format:
 
 Complete this:
 
