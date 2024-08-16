@@ -1,6 +1,7 @@
 import os
 import re
 import codecs
+import csv
 
 # Define accepted characters as a regular expression pattern
 accepted_chars_pattern = r'[ &_$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]'
@@ -191,32 +192,57 @@ def save_csv(filename, header, data):
     #     csvfile.write('"' + '","'.join(processed_data2) + '"\n')
 
 
-    ## csv generation for microsoft excel
+    ## csv generation 
     # ## Write data to CSV file with UTF-8 BOM
     # with codecs.open(filename, 'a', 'utf-8-sig') as csvfile:
     #     if not file_exists:
     #         csvfile.write('"' + '","'.join(header) + '"\n')
     #     csvfile.write('"' + '","'.join(processed_data2) + '"\n')
 
-    ## Write data to CSV file with UTF-8 BOM
-    with codecs.open(filename, 'a', 'utf-8-sig') as csvfile:
-        if not file_exists:
-            csvfile.write('"' + '","'.join(header) + '"\n')
+    # ## Write data to CSV file with UTF-8 BOM
+    # with codecs.open(filename, 'a', 'utf-8-sig') as csvfile:
+    #     if not file_exists:
+    #         csvfile.write('"' + '","'.join(header) + '"\n')
         
-        # Extract the first item and join the remaining items with quotes
-        first_item = processed_data2[0]
-        remaining_items = '","'.join(processed_data2[1:])
-        csvfile.write(f'{first_item},"{remaining_items}"\n')
+    #     # Extract the first item and join the remaining items with quotes
+    #     first_item = processed_data2[0]
+    #     remaining_items = '","'.join(processed_data2[1:])
+    #     csvfile.write(f'{first_item},"{remaining_items}"\n')
+
+
+    # # Write data to CSV file with UTF-8 BOM
+    # with codecs.open(filename, 'a', 'utf-8-sig') as csvfile:
+    #     if not file_exists:
+    #         # Join headers with commas (no double quotes)
+    #         header_row = ','.join(header)
+    #         csvfile.write(f'{header_row}\n')
+        
+    #     # Write processed data with commas (no double quotes)
+    #     processed_data_rows = ','.join(processed_data2)
+    #     csvfile.write(f'{processed_data_rows}\n')
+
+        # Write data to CSV file
+    with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        
+        if not file_exists:
+            # Write the header row
+            writer.writerow(header)
+        
+        # Write the processed data row
+        writer.writerow(processed_data2)
 
 # # # Example usage:
 # filename = 'example.csv'
-# header = ['Column 1', 'Column 2', 'Column 3']
-# data = ['$456â‰0%abA', "hello", 'Secondary level (8~9 Yrs)', 'null']
+# # header = ['Column 1', 'Column 2', 'Column 3']
+# # data = ['$456â‰0%abA', "hello", 'Secondary level (8~9 Yrs)', 'null']
 
 # header = ["maid_name","maid_ref_code","maid_type","maid_expected_salary","availability_status","youtube_link","evalsg_lang_english_stars","evalsg_lang_mandarin_stars","evalsg_lang_malay_stars","evalsg_lang_tamil_stars","evalsg_lang_hindi_stars","public_maid_introduction","date_of_birth","place_of_birth","height_cm","weight_kg","nationality","sub_nationality","home_address","home_airport_repatriate","home_contact_number","religion","education","siblings_count","marital_status","children_count","children_ages","allergies","illness_mental","illness_epilepsy","illness_asthma","illness_diabetes","illness_hypertension","illness_tuberculosis","illness_heart_disease","illness_malaria","illness_operations","illness_others","physical_disabilities","dietary_restrictions","handle_pork","handle_beef","handle_pets","handle_others","maid_preferred_rest_day","maid_other_remarks","eval_no_agency_no_trainingctr","eval_agency","eval_agency_telephone","eval_agency_videoconference","eval_agency_in_person","eval_agency_in_person_observation","eval_agency_age_range_infant_child","eval_agency_willing_infant_child","eval_agency_years_infant_child","eval_agency_stars_infant_child","eval_agency_comments_infant_child","eval_agency_willing_elderly","eval_agency_years_elderly","eval_agency_stars_elderly","eval_agency_comments_elderly","eval_agency_willing_disabled","eval_agency_years_disabled","eval_agency_stars_disabled","eval_agency_comments_disabled","eval_agency_willing_housework","eval_agency_years_housework","eval_agency_stars_housework","eval_agency_comments_housework","eval_agency_specify_cuisines_cooking","eval_agency_willing_cooking","eval_agency_years_cooking","eval_agency_stars_cooking","eval_agency_comments_cooking","eval_agency_language","eval_agency_willing_language","eval_agency_years_language","eval_agency_stars_language","eval_agency_comments_language","eval_agency_specify_other_skills","eval_agency_willing_other_skills","eval_agency_years_other_skills","eval_agency_stars_other_skills","eval_agency_comments_other_skills","trainingctr_name","trainingctr_certified","eval_trainingctr_telephone","eval_trainingctr_videoconference","eval_trainingctr_in_person","eval_trainingctr_in_person_observation","eval_trainingctr_age_range_infant_child","eval_trainingctr_willing_infant_child","eval_trainingctr_years_infant_child","eval_trainingctr_stars_infant_child","eval_trainingctr_comments_infant_child","eval_trainingctr_willing_elderly","eval_trainingctr_years_elderly","eval_trainingctr_stars_elderly","eval_trainingctr_comments_elderly","eval_trainingctr_willing_disabled","eval_trainingctr_years_disabled","eval_trainingctr_stars_disabled","eval_trainingctr_comments_disabled","eval_trainingctr_willing_housework","eval_trainingctr_years_housework","eval_trainingctr_stars_housework","eval_trainingctr_comments_housework","eval_trainingctr_specify_cuisines_cooking","eval_trainingctr_willing_cooking","eval_trainingctr_years_cooking","eval_trainingctr_stars_cooking","eval_trainingctr_comments_cooking","eval_trainingctr_language","eval_trainingctr_willing_language","eval_trainingctr_years_language","eval_trainingctr_stars_language","eval_trainingctr_comments_language","eval_trainingctr_specify_other_skills","eval_trainingctr_willing_other_skills","eval_trainingctr_years_other_skills","eval_trainingctr_stars_other_skills","eval_trainingctr_comments_other_skills","employment_history","employer1_date_from","employer1_date_to","employer1_country","employer1_name","employer1_work_duties","employer1_remarks","employer2_date_from","employer2_date_to","employer2_country","employer2_name","employer2_work_duties","employer2_remarks","employer3_date_from","employer3_date_to","employer3_country","employer3_name","employer3_work_duties","employer3_remarks","employer4_date_from","employer4_date_to","employer4_country","employer4_name","employer4_work_duties","employer4_remarks","employer5_date_from","employer5_date_to","employer5_country","employer5_name","employer5_work_duties","employer5_remarks","employer6_date_from","employer6_date_to","employer6_country","employer6_name","employer6_work_duties","employer6_remarks","employer7_date_from","employer7_date_to","employer7_country","employer7_name","employer7_work_duties","employer7_remarks","employer8_date_from","employer8_date_to","employer8_country","employer8_name","employer8_work_duties","employer8_remarks","prev_work_in_sg","maid_prev_feedback1","maid_prev_feedback2","avail_interview_not_available","avail_interview_phone","avail_interview_videoconference","avail_interview_in_person","other_remarks","maid_passport_no","trainingctr_maid_introduction","internal_notes",""]
 # data = ["Nur Arisa","DS0318","Ex-sg Maid","","Other","","3","","","","","She Has Experience As A Housemaid In Singapore For 10 Years. She Is Good At Taking Care Of Children And Elderly. She Is Good Patient And Obedient Girl. She Can Speak Good English And Mandarin Also Can Cook Chinese Food. She Is Highly Recommended To Work In Singapore With Family Who Have New Born Baby Children And Elderly.","04/03/1987","Banyuwangi / East Java","161","89","Indonesian","","Dusun Sumbersuko Rt. 001/002 Desa Kesilir Kec. Siliragung Kab. Banyuwangi East Java","Jakarta","62","Muslim","High School (11-12 yrs)","6","Married","1","11 Y.o-boy","Nil","No","No","No","No","No","No","No","No","No","No","Nil","Nil","Yes","Yes","Yes","","1 Rest Days Per Month","","","Overseas Training Centre/ea","No","No","No","Yes","NBB-BOY","Yes","4","3","","Yes","4","4","","Yes","","3","","Yes","10","4","","Soup Fried Vegetables Porridge Steam Fish Etc.","Yes","10","3","","English","Yes","10","3","English Is Good With 10 Years Of Experience.","Handle Pets","Yes","2","3","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","- Date: Sep 2020 - Feb 2024","Sep-20","Feb-24","Singapore","Mr Muhamad Fadil","Cleaning House Making Bed Washing & Ironing Cooking Serve Meal Take Care Ahma 83 Y.o-stroke.","Finish Contract","Jul-20","Sep-20","Singapore","Mr Patrick","Cleaning House Making Bed Washing & Ironing Cooking Serve Meal Take Care Baby 4 Months-boy","2 Months/ Er Back To Vietnam","Dec-19","Jul-20","Singapore","Ms Ling"," Cleaning House Making Bed Washing & Cooking Take Care Akong 89 Y.o-stroke.","7 Months/ Er Pass Away","Mar-15","Feb-19","Singapore","Mr Lee Lay Peng","Cleaning House Making Bed Washing & Ironing Cooking Take Care Nbb-boy.","Finish Contract","Mar-10","Feb-12","Singapore","Mr Wong Sing Kuew","Cleaning House Making Bed Washing & Ironing Cooking Handling 2 Dogs.","Finish Contract","","","","","","","","","","","","","","","","","","","Yes","Wong Sing Kuwe Mr","Lee Lay Peng Ms","","X","X","X","I Have Gone Through The Biodata Of This Fdw And Confirm That I Would Like To Employ Her.","",""]
 
 # print(header[22])
 # print(data[22])
+# print(header[174])
+# print(data[174])
 # save_csv(filename, header, data)
 # print("Done")
