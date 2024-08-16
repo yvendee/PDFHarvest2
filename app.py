@@ -538,8 +538,12 @@ def pdf_to_jpg(pdf_file, output_folder, zoom=2):
             try:
                 # Getting the value corresponding to the key "maid type"" then stored
                 maid_type_option_id_value = summary_dict.get("maid type", "")
-                if maid_type_option_id_value.strip().lower() in ["ex maid", "transfer maid"]:
-                    summary_dict["maid type"] = maid_type_option_id_value.strip().lower()
+                maid_type_option_id_value = maid_type_option_id_value.strip().lower()
+                if maid_type_option_id_value in ["ex maid", "transfer maid", "ex-sg maid"]:
+                    if maid_type_option_id_value == "ex-sg maid":
+                        summary_dict["maid type"] = "Ex-SG Maid"
+                    else:
+                        summary_dict["maid type"] = maid_type_option_id_value
                 else:
                     summary_dict["maid type"] = "New Maid"
             except Exception as e:
