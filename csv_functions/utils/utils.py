@@ -112,6 +112,17 @@ def save_csv(filename, header, data):
         for unwanted in unwanted_values:
             if item_lower == unwanted:
                 return ""
+
+        # Check for values
+        for unwanted in ["no."]:
+            item_lower = item.strip().lower()
+            if item_lower == unwanted:
+                return "No"
+
+        for unwanted in ["yes."]:
+            item_lower = item.strip().lower()
+            if item_lower == unwanted:
+                return "Yes"
                 
         # Check if any unwanted value is in item_lower
         # Therefore, if item_lower is " language english experience null, ", the process_data_item function will return ""
@@ -221,16 +232,43 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'{processed_data_rows}\n')
 
-        # Write data to CSV file
-    with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
-        writer = csv.writer(csvfile)
-        
+    # Write data to CSV file with UTF-8 BOM
+    with open(filename, 'a', encoding='utf-8') as csvfile:
         if not file_exists:
-            # Write the header row
-            writer.writerow(header)
+            # Write BOM for UTF-8 encoding (only once for new files)
+            csvfile.write('\ufeff')
+            # Join headers with commas and write
+            header_row = ','.join(header)
+            csvfile.write(f'{header_row}\n')
         
-        # Write the processed data row
-        writer.writerow(processed_data2)
+        # Join processed data with commas and write
+        processed_data_row = ','.join(processed_data2)
+        csvfile.write(f'{processed_data_row}\n')
+
+    # Remove the last newline
+    with open(filename, 'r+', encoding='utf-8') as csvfile:
+        # Read all content
+        content = csvfile.read()
+        # If content ends with a newline, remove it
+        if content.endswith('\n'):
+            content = content[:-1]
+        # Move the file pointer to the beginning
+        csvfile.seek(0)
+        # Rewrite content without the trailing newline
+        csvfile.write(content)
+        # Truncate the file to the new length
+        csvfile.truncate()
+
+    # # Write data to CSV file
+    # with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
+    #     writer = csv.writer(csvfile)
+        
+    #     if not file_exists:
+    #         # Write the header row
+    #         writer.writerow(header)
+        
+    #     # Write the processed data row
+    #     writer.writerow(processed_data2)
 
 # # # Example usage:
 # filename = 'example.csv'
