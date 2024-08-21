@@ -232,26 +232,26 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'{processed_data_rows}\n')
 
-    # Write data to CSV file with UTF-8 BOM
+    # Step 1: Append data to the file
     with open(filename, 'a', encoding='utf-8') as csvfile:
         if not file_exists:
-            # Write BOM for UTF-8 encoding (only once for new files)
-            csvfile.write('\ufeff')
-            # Join headers with commas and write
+            # Write the header row
             header_row = ','.join(header)
             csvfile.write(f'{header_row}\n')
         
-        # Join processed data with commas and write
+        # Write the processed data row
         processed_data_row = ','.join(processed_data2)
         csvfile.write(f'{processed_data_row}\n')
 
-    # Remove the last newline
+    # Step 2: Remove the last newline if present
     with open(filename, 'r+', encoding='utf-8') as csvfile:
         # Read all content
         content = csvfile.read()
+        
         # If content ends with a newline, remove it
         if content.endswith('\n'):
-            content = content[:-1]
+            content = content.rstrip('\n')
+        
         # Move the file pointer to the beginning
         csvfile.seek(0)
         # Rewrite content without the trailing newline
