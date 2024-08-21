@@ -193,39 +193,16 @@ def save_csv(filename, header, data):
     # Process each item in data list
     processed_data2 = [process_data_item3(item) for item in processed_data2]
 
-    # # Write data to CSV file with UTF-8
-    # with open(filename, 'a', 'utf-8') as csvfile:
-    #     if not file_exists:
-    #         # Join headers with commas (no double quotes)
-    #         header_row = ','.join(header)
-    #         csvfile.write(f'{header_row}\n')
-        
-    #     # Write processed data with commas (no double quotes)
-    #     processed_data_rows = ','.join(processed_data2)
-    #     csvfile.write(f'{processed_data_rows}\n')
-
-    # Initialize a boolean flag to track if the header has been written
-    header_written = False
-
-    # Open file for writing data
-    with open(filename, 'a', encoding='utf-8') as csvfile:
-        if not header_written:
+    # Write data to CSV file with UTF-8
+    with open(filename, 'a', 'utf-8') as csvfile:
+        if not file_exists:
             # Join headers with commas (no double quotes)
             header_row = ','.join(header)
-            csvfile.write(f'{header_row}\n')
-            header_written = True  # Set flag to True after writing header
-
-        # Process data for writing
-        processed_data_rows = ','.join(processed_data2)
+            csvfile.write(f'{header_row}')
         
-        # Check if this is the first line of the file
-        # If the file is empty, don't prepend a newline
-        if csvfile.tell() == 0:
-            csvfile.write(processed_data_rows)
-        else:
-            # Otherwise, write the data row with a newline at the beginning
-            csvfile.write(f'\n{processed_data_rows}')
-
+        # Write processed data with commas (no double quotes)
+        processed_data_rows = ','.join(processed_data2)
+        csvfile.write(f'\n{processed_data_rows}')
 
     ## simple csv generation
     # with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
