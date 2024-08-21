@@ -232,32 +232,27 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'{processed_data_rows}\n')
 
-    # Step 1: Append data to the file
-    with open(filename, 'a', encoding='utf-8') as csvfile:
-        if not file_exists:
-            # Write the header row
-            header_row = ','.join(header)
-            csvfile.write(f'{header_row}\n')
-        
-        # Write the processed data row
-        processed_data_row = ','.join(processed_data2)
-        csvfile.write(f'{processed_data_row}\n')
+    # Step 1: Write the CSV file
+    with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        processed_data_rows = ','.join(processed_data2)
+        csvfile.write(f'{processed_data_rows}\n')
 
     # Step 2: Remove the last newline if present
     with open(filename, 'r+', encoding='utf-8') as csvfile:
-        # Read all content
+        # Read the content
         content = csvfile.read()
-        
         # If content ends with a newline, remove it
         if content.endswith('\n'):
             content = content.rstrip('\n')
-        
         # Move the file pointer to the beginning
         csvfile.seek(0)
-        # Rewrite content without the trailing newline
+        # Write the content back without the trailing newline
         csvfile.write(content)
         # Truncate the file to the new length
         csvfile.truncate()
+
+
 
     # # Write data to CSV file
     # with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
