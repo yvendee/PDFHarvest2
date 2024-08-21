@@ -193,16 +193,16 @@ def save_csv(filename, header, data):
     # Process each item in data list
     processed_data2 = [process_data_item3(item) for item in processed_data2]
 
-    # Write data to CSV file with UTF-8
-    with open(filename, 'a', 'utf-8') as csvfile:
-        if not file_exists:
-            # Join headers with commas (no double quotes)
-            header_row = ','.join(header)
-            csvfile.write(f'{header_row}')
+    # # Write data to CSV file with UTF-8
+    # with open(filename, 'a', 'utf-8') as csvfile:
+    #     if not file_exists:
+    #         # Join headers with commas (no double quotes)
+    #         header_row = ','.join(header)
+    #         csvfile.write(f'{header_row}')
         
-        # Write processed data with commas (no double quotes)
-        processed_data_rows = ','.join(processed_data2)
-        csvfile.write(f'\n{processed_data_rows}')
+    #     # Write processed data with commas (no double quotes)
+    #     processed_data_rows = ','.join(processed_data2)
+    #     csvfile.write(f'\n{processed_data_rows}')
 
     ## simple csv generation
     # with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
@@ -243,16 +243,17 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'{processed_data_rows}\n')
 
-    # # Write data to CSV file with UTF-8
-    # with open(filename, 'a', 'utf-8') as csvfile:
-    #     if not file_exists:
-    #         # Join headers with commas (no double quotes)
-    #         header_row = ','.join(header)
-    #         csvfile.write(f'{header_row}\n')
+    # Open file in append mode with UTF-8 encoding
+    with open(filename, 'a', encoding='utf-8') as csvfile:
+        if not file_exists:
+            # Join headers with commas and write the header row
+            header_row = ','.join(header)
+            csvfile.write(f'{header_row}')  # Write the header with a newline
         
-    #     # Write processed data with commas (no double quotes)
-    #     processed_data_rows = ','.join(processed_data2)
-    #     csvfile.write(f'{processed_data_rows}\n')
+        # Join processed data with commas and write the processed data row
+        processed_data_rows = ','.join(processed_data2)
+        csvfile.write(f'\n{processed_data_rows}')
+
 
     # # Write data to CSV file
     # with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
