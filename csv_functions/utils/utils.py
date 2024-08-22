@@ -4,7 +4,8 @@ import codecs
 import csv
 
 # Define accepted characters as a regular expression pattern
-accepted_chars_pattern = r'[ &_$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]'
+accepted_chars_pattern = r'[ &_$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]' ## with "underscore"
+# accepted_chars_pattern = r'[ &$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]'
 
 def filter_accepted_chars(item):
     # Use regular expression to filter out unwanted characters
@@ -135,6 +136,10 @@ def save_csv(filename, header, data):
 
         # Filter accepted characters
         filtered_item = filter_accepted_chars(item)
+
+        ## replace "comma" symbol with whitespace in the each item's data to avaold conflict with csv delimiter
+        filtered_item = filtered_item.replace(",", " ")
+        filtered_item = filtered_item.replace("_", "")
         
         return filtered_item.strip()
 
@@ -428,16 +433,47 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'{processed_data_rows}\n')
 
-    # Open file in append mode with UTF-8 encoding
-    with open(filename, 'a', encoding='utf-8') as csvfile:
-        if not file_exists:
-            # Join headers with commas and write the header row
-            header_row = ','.join(header)
-            csvfile.write(f'{header_row}')  # Write the header with a newline
+    # # Open file in append mode with UTF-8 encoding
+    # with open(filename, 'a', encoding='utf-8') as csvfile:
+    #     if not file_exists:
+    #         # Join headers with commas and write the header row
+    #         header_row = ','.join(header)
+    #         csvfile.write(f'{header_row}')  # Write the header with a newline
         
-        # Join processed data with commas and write the processed data row
-        processed_data_rows = ','.join(processed_data2)
-        csvfile.write(f'\n{processed_data_rows}')
+    #     # Join processed data with commas and write the processed data row
+    #     processed_data_rows = ','.join(processed_data2)
+    #     csvfile.write(f'\n{processed_data_rows}')
+
+    try:
+        # Open file in append mode with UTF-8 encoding
+        with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
+            csvwriter = csv.writer(csvfile, lineterminator='\r\n')
+
+            # Write header if file does not exist
+            if not file_exists:
+                csvwriter.writerow(header)
+
+            # Write processed data row once
+            csvwriter.writerow(processed_data2)
+
+    except Exception as e:
+        print(f"Error writing to CSV file: {e}")
+
+    # try:
+    #     # Open file in append mode with UTF-8 encoding
+    #     with open(filename, 'a', encoding='utf-8', newline='') as csvfile:
+    #         if not file_exists:
+    #             # Join headers with commas and write the header row
+    #             header_row = ','.join(header)
+    #             csvfile.write(f'{header_row}')  # Write the header with CRLF newline
+            
+    #         # Join processed data with commas and write the processed data row
+    #         processed_data_rows = ','.join(processed_data2)
+    #         csvfile.write(f'\r\n{processed_data_rows}')  # Write the processed data row with CRLF newline
+
+    # except Exception as e:
+    #     print(f"Error writing to CSV file: {e}")
+
 
 
     # # Write data to CSV file

@@ -947,6 +947,7 @@ def process_files(session_id):
     if not check_authenticated():
         return jsonify({'error': 'Unauthorized access'}), 401
     def mock_processing():
+        print("uploading process started")
         uploaded_files = os.listdir(UPLOAD_FOLDER)
         # print(uploaded_files)
         total_files = len(uploaded_files)
@@ -978,7 +979,7 @@ def process_files(session_id):
         except Exception as e:
             print(f"An error occured: {e}")
             save_log(os.path.join(EXTRACTED_PAGE_IMAGES_FOLDER, "logs.txt"),f"An error occured: {e}")
-
+        print("uploading process finished")
 
     if session_id not in progress:
         return jsonify({'error': 'Invalid session ID'}), 400
@@ -1012,6 +1013,7 @@ def progress_status(session_id):
 def cancel_processing(session_id):
     if session_id in processing_threads:
         del processing_threads[session_id]  # Stop the processing
+        print("process cancelled")
         # Additional cleanup if necessary
         return jsonify({'message': 'Processing cancelled'})
     return jsonify({'error': 'Invalid session ID'}), 400
