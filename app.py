@@ -947,46 +947,53 @@ def process_files(session_id):
     if not check_authenticated():
         return jsonify({'error': 'Unauthorized access'}), 401
     def mock_processing():
-        print("uploading process started")
-        uploaded_files = os.listdir(UPLOAD_FOLDER)
-        # print(uploaded_files)
-        total_files = len(uploaded_files)
-        progress[session_id]['total'] = total_files
-        print(f"total files in the uploads is {total_files}")
-
-        # for index, filename in enumerate(uploaded_files):
-        index = 0
-        for i in range (len(uploaded_pdf_file_list)):
-            pdf_file_path = uploaded_pdf_file_list[i]
-            filename = os.path.basename(pdf_file_path)
-            # Simulate processing of each file
-            # time.sleep(3)  # Simulate processing delay
-            process_pdf_extract_image(filename)
-            pdf_path = os.path.join(UPLOAD_FOLDER, filename)
-            pdf_to_jpg(pdf_path, EXTRACTED_PAGE_IMAGES_FOLDER, zoom=2) ## ocr and analyzing
-            index += 1
-            progress[session_id]['current'] = index
-            
         try:
-            # maidrefcode_list = ['SRANML240075','CML','AA']
-            print(maidrefcode_list)
-            print(image_fullpath_with_face_list)
-            print(new_uploaded_pdf_file_path_list)
+            print("uploading process started")
+            uploaded_files = os.listdir(UPLOAD_FOLDER)
+            # print(uploaded_files)
+            total_files = len(uploaded_files)
+            progress[session_id]['total'] = total_files
+            print(f"total files in the uploads is {total_files}")
 
-            rename_files(image_fullpath_with_face_list, maidrefcode_list)
-            rename_files2(new_uploaded_pdf_file_path_list, maidrefcode_list)
-            save_log(os.path.join(EXTRACTED_PAGE_IMAGES_FOLDER, "logs.txt"),f"Processed Completed. Ready to download!")
+            # for index, filename in enumerate(uploaded_files):
+            index = 0
+            for i in range (len(uploaded_pdf_file_list)):
+                pdf_file_path = uploaded_pdf_file_list[i]
+                filename = os.path.basename(pdf_file_path)
+                # Simulate processing of each file
+                # time.sleep(3)  # Simulate processing delay
+                process_pdf_extract_image(filename)
+                pdf_path = os.path.join(UPLOAD_FOLDER, filename)
+                pdf_to_jpg(pdf_path, EXTRACTED_PAGE_IMAGES_FOLDER, zoom=2) ## ocr and analyzing
+                index += 1
+                progress[session_id]['current'] = index
+                
+            try:
+                # maidrefcode_list = ['SRANML240075','CML','AA']
+                print(maidrefcode_list)
+                print(image_fullpath_with_face_list)
+                print(new_uploaded_pdf_file_path_list)
+
+                rename_files(image_fullpath_with_face_list, maidrefcode_list)
+                rename_files2(new_uploaded_pdf_file_path_list, maidrefcode_list)
+                save_log(os.path.join(EXTRACTED_PAGE_IMAGES_FOLDER, "logs.txt"),f"Processed Completed. Ready to download!")
+            except Exception as e:
+                print(f"An error occured: {e}")
+                save_log(os.path.join(EXTRACTED_PAGE_IMAGES_FOLDER, "logs.txt"),f"An error occured: {e}")
+            print("uploading process finished")
         except Exception as e:
-            print(f"An error occured: {e}")
-            save_log(os.path.join(EXTRACTED_PAGE_IMAGES_FOLDER, "logs.txt"),f"An error occured: {e}")
-        print("uploading process finished")
+            print(f"Error during upload processing: {e}")
 
     if session_id not in progress:
         return jsonify({'error': 'Invalid session ID'}), 400
     
-    # Start the mock processing in a separate thread
-    thread = Thread(target=mock_processing)
-    thread.start()
+    try:
+        # Start the mock processing in a separate thread
+        thread = Thread(target=mock_processing)
+        thread.start()
+    except Exception as e:
+        print(f"Error during thread start: {e}")
+
     
     return jsonify({'message': 'Processing started'}), 200
 
@@ -1011,34 +1018,40 @@ def progress_status(session_id):
 @app.route('/cancel/<session_id>', methods=['POST'])
 @login_required
 def cancel_processing(session_id):
-    if session_id in processing_threads:
-        del processing_threads[session_id]  # Stop the processing
-        print("process cancelled")
-        # Additional cleanup if necessary
-        return jsonify({'message': 'Processing cancelled'})
-    return jsonify({'error': 'Invalid session ID'}), 400
+    try:
+        if session_id in processing_threads:
+            del processing_threads[session_id]  # Stop the processing
+            print("process cancelled")
+            # Additional cleanup if necessary
+            return jsonify({'message': 'Processing cancelled'})
+        return jsonify({'error': 'Invalid session ID'}), 400
+    except Exception as e:
+        print(f"Error during cancel processing: {e}")
 
 @app.route('/download/<session_id>')
 @login_required
 def download_files(session_id):
-    if not check_authenticated():
-        return jsonify({'error': 'Unauthorized access'}), 401
-    if session_id not in progress or progress[session_id]['current'] < progress[session_id]['total']:
-        return jsonify({'error': 'Files are still being processed or invalid session ID'}), 400
+    try:
+        if not check_authenticated():
+            return jsonify({'error': 'Unauthorized access'}), 401
+        if session_id not in progress or progress[session_id]['current'] < progress[session_id]['total']:
+            return jsonify({'error': 'Files are still being processed or invalid session ID'}), 400
 
-    zip_filename = f"outputfiles_{session_id}.zip"
-    zip_filepath = os.path.join(app.config['EXTRACTED_PROFILE_PICTURE_FOLDER'], zip_filename)
+        zip_filename = f"outputfiles_{session_id}.zip"
+        zip_filepath = os.path.join(app.config['EXTRACTED_PROFILE_PICTURE_FOLDER'], zip_filename)
 
-    with zipfile.ZipFile(zip_filepath, 'w') as zipf:
-        for root, dirs, files in os.walk(app.config['EXTRACTED_PROFILE_PICTURE_FOLDER']):
-            for file in files:
-                file_path = os.path.join(root, file)
-                # Exclude the zip file itself from being added
-                if file_path != zip_filepath:
-                    arcname = os.path.relpath(file_path, app.config['EXTRACTED_PROFILE_PICTURE_FOLDER'])
-                    zipf.write(file_path, arcname)
+        with zipfile.ZipFile(zip_filepath, 'w') as zipf:
+            for root, dirs, files in os.walk(app.config['EXTRACTED_PROFILE_PICTURE_FOLDER']):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    # Exclude the zip file itself from being added
+                    if file_path != zip_filepath:
+                        arcname = os.path.relpath(file_path, app.config['EXTRACTED_PROFILE_PICTURE_FOLDER'])
+                        zipf.write(file_path, arcname)
 
-    return send_file(zip_filepath, as_attachment=True)
+        return send_file(zip_filepath, as_attachment=True)
+    except Exception as e:
+        print(f"Error during download_files: {e}")
 
 @app.route('/download-csv/<session_id>')
 @login_required
