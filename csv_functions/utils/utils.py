@@ -2,16 +2,50 @@ import os
 import re
 import codecs
 import csv
+from datetime import datetime
+
 
 # Define accepted characters as a regular expression pattern
 accepted_chars_pattern = r'[ &_$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]' ## with "underscore"
 # accepted_chars_pattern = r'[ &$a-zA-Z0-9\(\)\-\~\/\\\<\>=\.\@:;+|]'
 
+# Regular expression to match date patterns
+date_pattern = re.compile(r'\b(\d{2}/\d{2}/\d{4})\b')
+
+def remove_non_digits(input_str):
+    # Use regular expressions to keep only digits
+    return re.sub(r'\D', '', input_str)
+
 def filter_accepted_chars(item):
     # Use regular expression to filter out unwanted characters
     return ''.join(re.findall(accepted_chars_pattern, item))
 
+# Function to convert date format
+def convert_date_format(date_str):
+    try:
+        # Parse the date using the original format
+        date_obj = datetime.strptime(date_str, "%d/%m/%Y")
+        # Format the date into the new format
+        return date_obj.strftime("%d-%b-%y")
+    except ValueError:
+        return date_str
+
+# Function to replace dates in text
+def replace_dates(text):
+    return date_pattern.sub(lambda match: convert_date_format(match.group()), text)
+
+def convert_date(date_str):
+    try:
+        # Try to parse the date using the expected format
+        date_obj = datetime.strptime(date_str, "%d/%m/%Y")
+        # Format the date object to the desired format
+        return date_obj.strftime("%d/%m/%y")
+    except ValueError:
+        # Return an error message or placeholder if the input is not a valid date
+        return "'"
+
 def save_csv(filename, header, data):
+
     # Replace spaces with underscores in headers
     header = [column.replace(' ', '_') for column in header]
 
@@ -164,6 +198,18 @@ def save_csv(filename, header, data):
     # Process each item in data list
     processed_data2 = [process_data_item2(item) for item in processed_data]
 
+    # Store first the date of birth before date replacement
+    new_dateofbirth = processed_data2[12]
+
+    # Apply the date replacement to each text in the list
+    processed_data2 = [replace_dates(text) for text in processed_data2]
+
+    ## after the date replacement (not affected), bring back the date of birth with a new format
+    processed_data2[12] = convert_date(new_dateofbirth) # Output: 22/07/76
+
+    # clean the maid_expected_salary, only 0-9 character is allowed.
+    processed_data2[3] = remove_non_digits(processed_data2[3])
+
     try:
 
         # Special Case: Uppercase the second index in processed_data2
@@ -200,7 +246,11 @@ def save_csv(filename, header, data):
 
         # Special Case: Function to extract numeric characters from a string for "siblings_count"
         if len(processed_data2) > 23:
-            processed_data2[23] = extract_numeric(processed_data2[23] )
+            if processed_data2[23] == "":
+                processed_data2[23] = 0
+            else:
+                processed_data2[23] = extract_numeric(processed_data2[23] )
+            
 
         # Special Case: Function to extract numeric characters from a string for "children_count"
         if len(processed_data2) > 25:
@@ -498,8 +548,8 @@ def save_csv(filename, header, data):
 # "She Has Experience As A Housemaid In Singapore For 10 Years. She Is Good At Taking Care Of Children And Elderly. She Is Good Patient And Obedient Girl. She Can Speak Good English And Mandarin Also Can Cook Chinese Food. She Is Highly Recommended To Work In Singapore With Family Who Have New Born Baby Children And Elderly.","04/03/1987","Banyuwangi / East Java","161cm","89lbs","Indonesian","","Dusun Sumbersuko Rt. 001/002 Desa Kesilir Kec. Siliragung Kab. Banyuwangi East Java","Jakarta","62","Muslim",
 # "High School (11-12 yrs)","6siblings","Married","1","11 Y.o-boy","Nil","","Yes","No","No","No","No","No","No","No","No","Nil","Nil","Yes","Yes","Yes","","1 Rest Days Per Month","","","Overseas Training Centre/ea","No","No","No","Yes","NBB-BOY","Yes","4","3","","Yes","4","4","","Yes","","3","","Yes","10","4","","Soup Fried Vegetables Porridge Steam Fish Etc.","Yes","10","3","","English","Yes","10","3","English Is Good With 10 Years Of Experience.","Handle Pets","Yes","2","3","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","- Date: Sep 2020 - Feb 2024","Sep-20","Feb-24","Singapore","Mr Muhamad Fadil","Cleaning House Making Bed Washing & Ironing Cooking Serve Meal Take Care Ahma 83 Y.o-stroke.","Finish Contract","Jul-20","Sep-20","Singapore","Mr Patrick","Cleaning House Making Bed Washing & Ironing Cooking Serve Meal Take Care Baby 4 Months-boy","2 Months/ Er Back To Vietnam","Dec-19","Jul-20","Singapore","Ms Ling"," Cleaning House Making Bed Washing & Cooking Take Care Akong 89 Y.o-stroke.","7 Months/ Er Pass Away","Mar-15","Feb-19","Singapore","Mr Lee Lay Peng","Cleaning House Making Bed Washing & Ironing Cooking Take Care Nbb-boy.","Finish Contract","Mar-10","Feb-12","Singapore","Mr Wong Sing Kuew","Cleaning House Making Bed Washing & Ironing Cooking Handling 2 Dogs.","Finish Contract","","","","","","","","","","","","","","","","","","","Yes","Wong Sing Kuwe Mr","Lee Lay Peng Ms","","X","X","X","I Have Gone Through The Biodata Of This Fdw And Confirm That I Would Like To Employ Her.","",""]
 
-# print(header[171])
-# print(data[57])
+# print(header[3])
+# print(data[3])
 # # print(header[174])
 # # print(data[174])
 # # save_csv(filename, header, data)
