@@ -199,13 +199,13 @@ def save_csv(filename, header, data):
     processed_data2 = [process_data_item2(item) for item in processed_data]
 
     # Store first the date of birth before date replacement
-    new_dateofbirth = processed_data2[12]
+    # new_dateofbirth = processed_data2[12]
 
     # Apply the date replacement to each text in the list
-    processed_data2 = [replace_dates(text) for text in processed_data2]
+    # processed_data2 = [replace_dates(text) for text in processed_data2]
 
     ## after the date replacement (not affected), bring back the date of birth with a new format
-    processed_data2[12] = convert_date(new_dateofbirth) # Output: 22/07/76
+    # processed_data2[12] = convert_date(new_dateofbirth) # Output: 22/07/76
 
     # clean the maid_expected_salary, only 0-9 character is allowed.
     processed_data2[3] = remove_non_digits(processed_data2[3])
@@ -247,7 +247,7 @@ def save_csv(filename, header, data):
         # Special Case: Function to extract numeric characters from a string for "siblings_count"
         if len(processed_data2) > 23:
             if processed_data2[23] == "":
-                processed_data2[23] = 0
+                processed_data2[23] = "0"`
             else:
                 processed_data2[23] = extract_numeric(processed_data2[23] )
             
