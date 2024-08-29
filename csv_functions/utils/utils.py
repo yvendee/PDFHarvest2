@@ -247,7 +247,7 @@ def save_csv(filename, header, data):
         # Special Case: Function to extract numeric characters from a string for "siblings_count"
         if len(processed_data2) > 23:
             if processed_data2[23] == "":
-                processed_data2[23] = "0"`
+                processed_data2[23] = "0"
             else:
                 processed_data2[23] = extract_numeric(processed_data2[23] )
             
