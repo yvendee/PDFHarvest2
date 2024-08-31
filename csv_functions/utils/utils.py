@@ -209,6 +209,8 @@ def save_csv(filename, header, data):
 
     # processed_data2[12] = "'" + new_dateofbirth ## the date of birth in your CSV file is treated as text and not automatically formatted as a date in Excel, you should enclose the date values in double quotes and prefix them with an apostrophe ('). This tells Excel to treat the content as text.
 
+    processed_data2[12] = new_dateofbirth ## the date of birth in your CSV file is treated as text and not automatically formatted as a date in Excel, you should enclose the date values in double quotes and prefix them with an apostrophe ('). This tells Excel to treat the content as text.
+
 
     # clean the maid_expected_salary, only 0-9 character is allowed.
     processed_data2[3] = remove_non_digits(processed_data2[3])
