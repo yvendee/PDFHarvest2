@@ -497,18 +497,30 @@ def save_csv(filename, header, data):
     #     processed_data_rows = ','.join(processed_data2)
     #     csvfile.write(f'\n{processed_data_rows}')
 
+    # try:
+    #     # Open file in append mode with UTF-8 encoding
+    #     with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
+    #         csvwriter = csv.writer(csvfile, lineterminator='\r\n')
+
+    #         # Write header if file does not exist
+    #         if not file_exists:
+    #             csvwriter.writerow(header)
+
+    #         # Write processed data row once
+    #         csvwriter.writerow(processed_data2)
+
+    # except Exception as e:
+    #     print(f"Error writing to CSV file: {e}")
+
     try:
-        # Open file in append mode with UTF-8 encoding
+        ## csv generation with double quotes
         with open(filename, 'a', newline='', encoding='utf-8') as csvfile:
-            csvwriter = csv.writer(csvfile, lineterminator='\r\n')
-
-            # Write header if file does not exist
+            # If the file doesn't exist, write the header
             if not file_exists:
-                csvwriter.writerow(header)
-
-            # Write processed data row once
-            csvwriter.writerow(processed_data2)
-
+                csvfile.write('"' + '","'.join(header) + '"\r\n')
+    
+            # Write the data
+            csvfile.write('"' + '","'.join(processed_data2) + '"\r\n')
     except Exception as e:
         print(f"Error writing to CSV file: {e}")
 
